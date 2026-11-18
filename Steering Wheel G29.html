@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A practice tool where teenagers can rehearse how to respond to a friend who is struggling with their mental health.">
+<title>What Do I Say?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;padding:0}
+img{max-width:100%}
+
+/* Layout: a warm paper frame around a phone conversation. Indigo for the tool, amber for the moment of choosing. */
+:root{
+  --bg:#F4F3EF; --surface:#FFFFFF; --surface-2:#ECEAE4; --surface-3:#E2DFD7;
+  --ink:#1B1C2A; --ink-soft:#4F5168; --ink-faint:#83859B;
+  --line:#DFDCD4; --line-soft:#EAE7E0;
+  --accent:#4A4499; --accent-soft:#E9E7F6; --on-accent:#FFFFFF;
+  --amber:#9C6B1F; --amber-soft:#F6EEDF;
+  --good:#3C6B51; --good-soft:#E4EFE8;
+  --missed:#8C6727; --missed-soft:#F5EEE0;
+  --closed:#8A4856; --closed-soft:#F5E6E8;
+  --bubble-them:#FFFFFF; --bubble-you:#4A4499; --bubble-you-ink:#FFFFFF;
+  --shadow:0 1px 2px rgba(27,28,42,.05), 0 10px 30px -16px rgba(27,28,42,.22);
+  --r:14px;
+  --display:"Fraunces", Georgia, "Times New Roman", serif;
+  --ui:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14151F; --surface:#1C1E2B; --surface-2:#242736; --surface-3:#2E3144;
+    --ink:#EDECF2; --ink-soft:#A7A9BE; --ink-faint:#74778D;
+    --line:#2E3144; --line-soft:#232634;
+    --accent:#A29BF5; --accent-soft:#232241; --on-accent:#131330;
+    --amber:#D7A75E; --amber-soft:#302716;
+    --good:#85C4A0; --good-soft:#15302A;
+    --missed:#D9A961; --missed-soft:#332917;
+    --closed:#DD94A4; --closed-soft:#36202A;
+    --bubble-them:#242736; --bubble-you:#4A4499; --bubble-you-ink:#F2F1FD;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 34px -18px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14151F; --surface:#1C1E2B; --surface-2:#242736; --surface-3:#2E3144;
+  --ink:#EDECF2; --ink-soft:#A7A9BE; --ink-faint:#74778D;
+  --line:#2E3144; --line-soft:#232634;
+  --accent:#A29BF5; --accent-soft:#232241; --on-accent:#131330;
+  --amber:#D7A75E; --amber-soft:#302716;
+  --good:#85C4A0; --good-soft:#15302A;
+  --missed:#D9A961; --missed-soft:#332917;
+  --closed:#DD94A4; --closed-soft:#36202A;
+  --bubble-them:#242736; --bubble-you:#4A4499; --bubble-you-ink:#F2F1FD;
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 34px -18px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+body{background:var(--bg); color:var(--ink); font-family:var(--ui); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:500}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:var(--accent)}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+/* ---------- shell ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:760px;margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:9px;display:flex;align-items:center;gap:10px;min-height:56px}
+.brand{font-family:var(--display);font-size:1.06rem;letter-spacing:-.01em;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.brand em{font-style:italic;color:var(--accent)}
+.nav{display:flex;gap:4px;align-items:center}
+.navbtn{padding:7px 11px;border-radius:999px;font-size:.82rem;font-weight:500;color:var(--ink-soft);transition:background .15s,color .15s;white-space:nowrap}
+.navbtn:hover{background:var(--surface-2);color:var(--ink)}
+.navbtn.on{background:var(--accent-soft);color:var(--accent)}
+.navbtn.help{background:var(--accent);color:var(--on-accent)}
+.navbtn.help:hover{filter:brightness(1.1);background:var(--accent);color:var(--on-accent)}
+@media (max-width:560px){ .navbtn.hide-sm{display:none} }
+
+.wrap{max-width:760px;margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:0 60px}
+
+/* ---------- type ---------- */
+.eyebrow{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.h-xl{font-family:var(--display);font-size:clamp(2.2rem,7.5vw,3.4rem);line-height:1.05;letter-spacing:-.015em;margin-top:14px}
+.h-xl em{font-style:italic;color:var(--accent)}
+.h-l{font-family:var(--display);font-size:clamp(1.5rem,5vw,2rem);line-height:1.15;letter-spacing:-.01em}
+.h-m{font-family:var(--display);font-size:1.3rem;line-height:1.25}
+.lede{margin-top:16px;color:var(--ink-soft);font-size:1.04rem;max-width:54ch}
+.note-sm{color:var(--ink-faint);font-size:.85rem;max-width:58ch;margin-top:6px}
+
+.hero{padding-block:44px 30px}
+.section{padding-block:34px;border-top:1px solid var(--line-soft)}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- notice ---------- */
+.notice{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:14px 16px}
+.notice p{font-size:.88rem;color:var(--ink-soft);line-height:1.55}
+.notice strong{color:var(--ink);font-weight:600}
+.num{font-family:var(--display);font-size:1.02rem;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:.92rem;transition:filter .15s,transform .08s}
+.btn:hover{filter:brightness(1.1)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2);filter:none}
+.btn.quiet{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+.btn.quiet:hover{background:var(--surface-2);filter:none}
+.actions{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{font-size:.84rem;color:var(--ink-faint)}
+
+/* ---------- gauge ---------- */
+.card-pad{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.gauge-q{font-size:1rem;font-weight:500;max-width:46ch}
+.slider-row{margin-top:18px;display:flex;align-items:center;gap:14px}
+input[type=range]{flex:1;min-width:0;accent-color:var(--accent);height:28px}
+.gauge-val{font-family:var(--display);font-size:2rem;line-height:1;min-width:2.2ch;text-align:right;font-variant-numeric:tabular-nums;color:var(--accent)}
+.scale-ends{display:flex;justify-content:space-between;font-size:.74rem;color:var(--ink-faint);margin-top:-4px}
+.result{margin-top:16px;padding:16px;border-radius:12px;background:var(--good-soft);border:1px solid var(--line)}
+.result .big{font-family:var(--display);font-size:1.7rem;color:var(--good);font-variant-numeric:tabular-nums}
+.result p{font-size:.88rem;color:var(--ink-soft);margin-top:6px}
+
+/* ---------- scenario cards ---------- */
+.cards{margin-top:20px;display:grid;gap:14px}
+@media (min-width:640px){ .cards{grid-template-columns:1fr 1fr} }
+.card{text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:9px;transition:border-color .15s,transform .12s,box-shadow .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+.card-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card h3{font-family:var(--display);font-size:1.22rem;flex:1;min-width:0}
+.pill{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.pill.done{background:var(--good-soft);color:var(--good)}
+.pill.amber{background:var(--amber-soft);color:var(--amber)}
+.card p{font-size:.92rem;color:var(--ink-soft)}
+.card-meta{font-size:.78rem;color:var(--ink-faint);display:flex;gap:14px;flex-wrap:wrap}
+
+/* ---------- steps / how it works ---------- */
+.steps3{margin-top:18px;display:grid;gap:14px}
+@media (min-width:640px){ .steps3{grid-template-columns:repeat(3,1fr)} }
+.step3{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.step3 .n{font-family:var(--display);font-size:1.5rem;color:var(--accent);line-height:1}
+.step3 h4{margin-top:8px;font-size:.98rem;font-weight:600}
+.step3 p{margin-top:5px;font-size:.87rem;color:var(--ink-soft);line-height:1.5}
+
+/* ---------- QPR learn ---------- */
+.qpr{margin-top:20px;display:grid;gap:16px}
+.qpr-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.qpr-head{padding:16px 18px;border-bottom:1px solid var(--line-soft);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.qpr-letter{font-family:var(--display);font-size:2rem;color:var(--accent);line-height:1}
+.qpr-head h3{font-family:var(--display);font-size:1.25rem}
+.qpr-head .sub{font-size:.84rem;color:var(--ink-faint);width:100%}
+.qpr-body{padding:16px 18px;display:grid;gap:14px}
+.compare{display:grid;gap:12px}
+@media (min-width:620px){ .compare{grid-template-columns:1fr 1fr} }
+.cmp{border-radius:11px;padding:13px 15px;font-size:.88rem;line-height:1.55}
+.cmp.a{background:var(--surface-2);color:var(--ink-soft)}
+.cmp.b{background:var(--accent-soft);color:var(--ink)}
+.cmp .lbl{font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;color:var(--ink-faint);display:block;margin-bottom:5px}
+.cmp.b .lbl{color:var(--accent)}
+.sayit{border-left:3px solid var(--amber);background:var(--amber-soft);padding:12px 15px;border-radius:0 11px 11px 0}
+.sayit .lbl{font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;color:var(--amber);display:block;margin-bottom:5px}
+.sayit q{font-size:.97rem;color:var(--ink);font-style:normal}
+.sayit q::before,.sayit q::after{content:'"'}
+
+/* ---------- myths ---------- */
+.myths{margin-top:18px;display:grid;gap:12px}
+.myth{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.myth .claim{font-weight:600;font-size:.97rem;display:flex;gap:9px;align-items:flex-start}
+.myth .tag{flex:none;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:3px 7px;border-radius:5px;background:var(--closed-soft);color:var(--closed);margin-top:3px}
+.myth .truth{margin-top:9px;font-size:.9rem;color:var(--ink-soft);line-height:1.6}
+.myth .src{margin-top:9px;font-size:.76rem;color:var(--ink-faint);font-style:italic}
+
+/* ---------- scenario ---------- */
+.scene-head{padding-block:26px 16px}
+.setup{margin-top:16px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r);padding:16px;font-size:.95rem;color:var(--ink-soft);line-height:1.6}
+.setup strong{color:var(--ink);font-weight:600}
+.progress{display:flex;gap:6px;margin-top:16px}
+.dot{height:4px;flex:1;border-radius:2px;background:var(--line);transition:background .3s}
+.dot.on{background:var(--accent)}
+
+.chat{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:min(84%,450px);padding:11px 15px;border-radius:18px;font-size:.95rem;line-height:1.5;overflow-wrap:break-word}
+.msg.them{background:var(--bubble-them);border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
+.msg.you{background:var(--bubble-you);color:var(--bubble-you-ink);border-bottom-right-radius:5px;align-self:flex-end}
+.msg.narr{align-self:stretch;max-width:none;background:none;border:0;padding:8px 0;font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.94rem;text-align:center}
+.who{font-size:.72rem;color:var(--ink-faint);align-self:flex-start;margin-bottom:-4px;letter-spacing:.04em}
+.anim{animation:rise .34s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none}}
+.typing{align-self:flex-start;display:flex;gap:4px;padding:13px 16px;background:var(--bubble-them);border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:5px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink-faint);animation:blink 1.3s infinite}
+.typing i:nth-child(2){animation-delay:.18s}
+.typing i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)} 30%{opacity:1;transform:translateY(-3px)}}
+
+.choices{margin-top:22px;display:grid;gap:10px}
+.choice-label{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:2px}
+.choice{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.95rem;line-height:1.5;display:flex;gap:12px;align-items:flex-start;transition:border-color .14s,background .14s,transform .1s}
+.choice:hover{border-color:var(--accent);background:var(--surface-2)}
+.choice:active{transform:translateY(1px)}
+.choice .key{flex:none;width:22px;height:22px;border-radius:6px;background:var(--surface-3);color:var(--ink-soft);font-size:.74rem;font-weight:600;display:grid;place-items:center;margin-top:1px}
+.choice:hover .key{background:var(--accent);color:var(--on-accent)}
+
+.feedback{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.feedback.good{border-left-color:var(--good);background:var(--good-soft)}
+.feedback.missed{border-left-color:var(--missed);background:var(--missed-soft)}
+.feedback.closed{border-left-color:var(--closed);background:var(--closed-soft)}
+.verdict{font-weight:600;font-size:.95rem}
+.feedback.good .verdict{color:var(--good)}
+.feedback.missed .verdict{color:var(--missed)}
+.feedback.closed .verdict{color:var(--closed)}
+.feedback .body{margin-top:8px;font-size:.93rem;color:var(--ink-soft);line-height:1.6}
+.src{margin-top:12px;padding-top:10px;border-top:1px solid var(--line-soft);font-size:.78rem;color:var(--ink-faint);font-style:italic}
+
+details.alt{margin-top:14px;border-top:1px solid var(--line-soft);padding-top:10px}
+details.alt summary{cursor:pointer;font-size:.82rem;font-weight:600;color:var(--accent);list-style:none}
+details.alt summary::-webkit-details-marker{display:none}
+details.alt summary::before{content:"▸ ";transition:none}
+details.alt[open] summary::before{content:"▾ "}
+.altlist{margin-top:10px;display:grid;gap:9px}
+.alt-item{font-size:.86rem;line-height:1.5;padding:10px 12px;border-radius:9px;background:var(--surface);border:1px solid var(--line-soft)}
+.alt-item .q{display:block;font-weight:600;margin-bottom:3px;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase}
+.alt-item.good .q{color:var(--good)} .alt-item.missed .q{color:var(--missed)} .alt-item.closed .q{color:var(--closed)}
+.alt-item .said{color:var(--ink);font-style:italic}
+.alt-item .then{color:var(--ink-soft);margin-top:4px;display:block}
+
+/* ---------- ending ---------- */
+.ending{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
+.takeaways{margin-top:16px;display:grid;gap:10px}
+.takeaway{display:flex;gap:11px;align-items:flex-start;font-size:.93rem;line-height:1.55}
+.takeaway .mark{flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.7rem;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.helpstrip{margin-top:18px;padding:14px 16px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line-soft);font-size:.88rem;color:var(--ink-soft);line-height:1.6}
+.helpstrip b{color:var(--ink)}
+.pathline{margin-top:16px;display:flex;gap:6px;flex-wrap:wrap}
+.pathdot{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:6px}
+.pathdot.good{background:var(--good-soft);color:var(--good)}
+.pathdot.missed{background:var(--missed-soft);color:var(--missed)}
+.pathdot.closed{background:var(--closed-soft);color:var(--closed)}
+
+/* ---------- summary ---------- */
+.statgrid{margin-top:20px;display:grid;gap:14px}
+@media (min-width:640px){ .statgrid{grid-template-columns:repeat(3,1fr)} }
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.stat .v{font-family:var(--display);font-size:2.1rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat .k{margin-top:7px;font-size:.83rem;color:var(--ink-soft)}
+
+/* ---------- sources / review ---------- */
+.srclist{margin-top:20px;display:grid;gap:14px}
+.srcitem{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.srcitem .t{font-weight:600;font-size:.95rem}
+.srcitem .c{margin-top:6px;font-size:.86rem;color:var(--ink-soft);line-height:1.55}
+.srcitem .u{margin-top:8px;font-size:.77rem;color:var(--ink-faint);overflow-wrap:anywhere}
+
+.rev-sc{margin-top:26px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.rev-sc > h3{font-family:var(--display);font-size:1.2rem;padding:14px 16px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.rev-step{padding:14px 16px;border-bottom:1px solid var(--line-soft)}
+.rev-step:last-child{border-bottom:0}
+.rev-ask{font-weight:600;font-size:.92rem}
+.rev-opt{margin-top:10px;padding:11px 13px;border-radius:10px;border:1px solid var(--line-soft);background:var(--bg);font-size:.86rem;line-height:1.55}
+.rev-opt .said{font-style:italic;color:var(--ink)}
+.rev-opt .fb{margin-top:6px;color:var(--ink-soft)}
+.rev-opt .meta{margin-top:6px;font-size:.75rem;color:var(--ink-faint);font-style:italic}
+
+/* ---------- help modal ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(14,14,24,.6);display:grid;place-items:center;
+  padding:max(16px, env(safe-area-inset-left,0px)) max(16px, env(safe-area-inset-right,0px));backdrop-filter:blur(3px)}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:18px;max-width:470px;width:100%;max-height:84vh;overflow-y:auto;padding:24px;box-shadow:0 26px 64px -22px rgba(0,0,0,.55)}
+.sheet h3{font-family:var(--display);font-size:1.45rem}
+.sheet > p{margin-top:10px;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
+.line{margin-top:15px;padding:14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line-soft)}
+.line .nm{font-weight:600;font-size:.95rem}
+.line .no{font-family:var(--display);font-size:1.6rem;color:var(--accent);letter-spacing:.02em;margin-top:2px;user-select:all;font-variant-numeric:tabular-nums}
+.line .de{font-size:.82rem;color:var(--ink-faint);margin-top:3px;line-height:1.5}
+.copy{margin-top:8px;font-size:.77rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft)}
+.copy:hover{background:var(--surface-3)}
+
+footer{padding-block:26px;border-top:1px solid var(--line-soft);color:var(--ink-faint);font-size:.82rem;line-height:1.6}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand" id="brand" role="button" tabindex="0">What Do I <em>Say?</em></div>
+    <nav class="nav">
+      <button class="navbtn hide-sm" data-go="learn">The model</button>
+      <button class="navbtn hide-sm" data-go="sources">Sources</button>
+      <button class="navbtn help" id="helpBtn">Get help</button>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <main id="view"></main>
+  <footer>
+    <p>A practice tool, not a crisis service. Nothing here replaces a counsellor, a doctor or a trusted adult. If someone is in immediate danger, call <span class="num">112</span>. Built as an IB MYP Personal Project.</p>
+  </footer>
+</div>
+
+<div class="overlay" id="helpModal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h3 id="helpTitle">Getting real help</h3>
+    <p>This tool is for practising. If you or someone you know needs support right now, these lines are free, confidential and staffed by trained people.</p>
+    <div class="line">
+      <div class="nm">Tele-MANAS</div><div class="no">14416</div>
+      <div class="de">Government of India national mental health helpline. Free, 24 hours, multiple languages. Also on 1800-891-4416.</div>
+      <button class="copy" data-copy="14416">Copy number</button>
+    </div>
+    <div class="line">
+      <div class="nm">KIRAN</div><div class="no">1800-599-0019</div>
+      <div class="de">Ministry of Social Justice and Empowerment. Free, 24 hours, 13 languages.</div>
+      <button class="copy" data-copy="1800-599-0019">Copy number</button>
+    </div>
+    <div class="line">
+      <div class="nm">Emergency</div><div class="no">112</div>
+      <div class="de">If someone is in immediate physical danger, call emergency services first.</div>
+      <button class="copy" data-copy="112">Copy number</button>
+    </div>
+    <p style="margin-top:18px"><strong style="color:var(--ink)">Tell a trusted adult.</strong> A helpline does not replace someone in your actual life. Your school counsellor, a teacher you trust, or a parent can do things a friend cannot. Telling them is not betraying anyone.</p>
+    <div class="actions"><button class="btn" id="closeHelp">Close</button></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ==================================================================== data */
+
+const SOURCES = {
+  qpr:{ tag:"QPR Institute, via Talkable Communities", title:"Question. Persuade. Refer.",
+    cite:"“Question. Persuade. Refer.” Talkable Communities, www.talkablecommunities.org/qpr.",
+    note:"The three-step model this tool is built on: recognise the warning signs, ask the question directly, persuade the person to accept help, and refer them to someone who can give it.",
+    url:"www.talkablecommunities.org/qpr" },
+  wyman:{ tag:"Wyman et al., 2008", title:"Randomized Trial of a Gatekeeper Program for Suicide Prevention",
+    cite:"Wyman, Peter A., et al. “Randomized Trial of a Gatekeeper Program for Suicide Prevention: 1-Year Impact on Secondary School Staff.” Journal of Consulting and Clinical Psychology, vol. 76, no. 1, Feb. 2008, pp. 104–15.",
+    note:"A randomised trial across 32 secondary schools. QPR training raised both people's knowledge of warning signs and their belief that they were able to step in.",
+    url:"pmc.ncbi.nlm.nih.gov/articles/PMC2771576" },
+  cmi:{ tag:"Child Mind Institute", title:"How to Support a Friend Who Is Struggling",
+    cite:"Martinelli, Katherine. “How to Support a Friend Who Is Struggling.” Child Mind Institute, 3 Feb. 2025.",
+    note:"Written for teenagers and reviewed by a clinical psychologist. The source for validating what someone says, for telling an adult straight away when a friend talks about hurting themselves, and for the fact that this is not yours to carry alone.",
+    url:"childmind.org/article/support-friend-with-mental-health-challenges/" },
+  levkovich:{ tag:"Levkovich et al., 2025", title:"Evaluating GenAI QPR Simulation Training for Mental Health Gatekeepers",
+    cite:"Levkovich, Inbar, et al. “A Step toward the Future? Evaluating GenAI QPR Simulation Training for Mental Health Gatekeepers.” Frontiers in Medicine, vol. 12, 11 June 2025.",
+    note:"Found that people who practised QPR through role-play scenarios reported more confidence in using it afterwards. The reason this tool measures confidence before and after rather than knowledge.",
+    url:"doi.org/10.3389/fmed.2025.1599900" },
+  reynolds:{ tag:"Reynolds, Raising Teens Today", title:"How to Help Your Teen Respond to a Struggling Friend",
+    cite:"Reynolds, Nancy. “How to Help Your Teen Respond to a Struggling Friend.” Raising Teens Today, 26 Mar. 2024.",
+    note:"Draws on a school counsellor's experience. Teenagers confide in friends rather than adults, and those friends are almost never equipped for what they are told.",
+    url:"raisingteenstoday.com/how-to-help-your-teen-respond-to-a-struggling-friend/" },
+  sood:{ tag:"Sood, LearnExperts", title:"Branching Scenarios in Learning",
+    cite:"Sood, Anu. “Branching Scenarios in Learning: How to Design Adaptable Training.” LearnExperts, 18 Nov. 2025.",
+    note:"Why branching scenarios suit judgment and communication skills, and why unrealistic or overly dramatic scenarios break immersion. Used as design guidance for how this tool is written, never as evidence for the advice it gives.",
+    url:"learnexperts.ai/blog/branching-scenarios-in-learning-how-to-design-adaptable-training/" }
+};
+
+const QPR = [
+  { letter:"Q", name:"Question", sub:"Ask the question you are afraid to ask.",
+    what:"Notice the change, then ask directly whether the person is thinking about suicide. Not hinted at, not softened into nothing. Asked.",
+    adult:"A trained teacher asks as part of a conversation they have been prepared for, in a room, during the school day.",
+    teen:"You ask over text at 2 a.m. with no training and no script, and you are frightened of making it worse. The question is the same. The conditions are not.",
+    say:"are you thinking about killing yourself?",
+    key:"Asking does not put the idea in someone's head. What it does is tell them you are not afraid of the answer, which is often the first time anyone has given them that." },
+  { letter:"P", name:"Persuade", sub:"Get them to agree to accept help.",
+    what:"Stay with the person and move them towards saying yes to support, rather than arguing them out of how they feel.",
+    adult:"An adult can lean on their role. They can say this is what we do now, and it carries weight.",
+    teen:"You have no authority at all, and your friend has often just asked you to keep it secret. Your only real lever is company: offering to go with them, rather than telling them to go.",
+    say:"what if we go together at the end of the day? i'll wait outside the whole time",
+    key:"An instruction with nothing attached to it leaves the hardest part, actually starting, entirely with them. A time, a plan and company is what turns advice into something that happens." },
+  { letter:"R", name:"Refer", sub:"Hand it to someone who can actually help.",
+    what:"Connect the person to someone trained. Your job is to get them to the door, not to be the professional behind it.",
+    adult:"An adult can make a referral. They are part of the system they are referring into.",
+    teen:"You cannot refer anyone. What you can do is tell a trusted adult, and that often feels like betrayal, because you may have promised not to.",
+    say:"i told Ms Rao today. i know what i promised. i'd rather you were angry with me.",
+    key:"A promise to keep someone's safety secret was never one you could keep. Telling them you are telling an adult, and then doing it, is the version that keeps you honest with them." }
+];
+
+const MYTHS = [
+  { claim:"Asking someone about suicide will put the idea in their head.",
+    truth:"This is the belief that stops most people saying anything, and it is the opposite of what gatekeeper training teaches. Asking directly is the first step of QPR. It signals that you can handle the answer, which is what makes it possible for them to give you one.",
+    src:"qpr" },
+  { claim:"If they are talking about it, they are just looking for attention.",
+    truth:"Talking about it is one of the clearest warning signs there is. Reading it as attention-seeking is the most common way someone gets dismissed at exactly the point they reached out.",
+    src:"cmi" },
+  { claim:"I will make things worse if I say the wrong thing.",
+    truth:"Most clumsy replies are recoverable, and this whole tool is built on the fact that you can try again. The move that is hardest to recover from is saying nothing at all, because silence tells someone the offer was never serious.",
+    src:"reynolds" },
+  { claim:"If I tell an adult, I have betrayed my friend.",
+    truth:"A friend's job is to notice, to stay, and to involve someone who can do more than you can. If a friend starts talking about hurting themselves, an adult needs to know straight away. Being disliked for a fortnight is survivable.",
+    src:"cmi" }
+];
+
+const VERDICT = { good:"This helped.", missed:"This missed something.", closed:"This closed the conversation." };
+
+const SCENARIOS = [
+{ id:"quiet", title:"Left on read", qpr:"Question", mins:"4 min",
+  blurb:"Someone you know has gone quiet for three weeks. Nothing has happened that you can point to.",
+  setup:"<strong>Maya</strong> used to reply in minutes. For about three weeks she has taken days, or not replied at all. She has missed practice twice. Today you saw her leave the canteen on her own again. Nothing dramatic has happened. You just know she is not herself.",
+  open:[{t:"narr",x:"You open the chat. She last replied four days ago."}],
+  steps:[
+  { ask:"What do you send?", options:[
+    { label:"yo you good?", you:"yo you good?", q:"missed",
+      reply:[{t:"them",x:"ya all good"},{t:"them",x:"why"}],
+      fb:"You asked, which is more than most people do. But a yes-or-no question has an easy exit, and “good” is the answer people give when they do not want to get into it. You will usually need a second, more specific attempt.", src:"qpr" },
+    { label:"haven't seen you around much lately. you ok?", you:"haven't seen you around much lately. you ok?", q:"good",
+      reply:[{t:"them",x:"im fine"},{t:"them",x:"just tired"}],
+      fb:"Naming the thing you actually noticed is what makes this different from a generic check-in. It tells her you were paying attention rather than being polite, and it is much harder to deflect than “you good?”. She still deflected, which is normal. Recognising a change and saying so out loud is the first step of QPR.", src:"qpr" },
+    { label:"Send her a meme and wait for her to bring it up.", you:"[you send a meme]", q:"missed",
+      reply:[{t:"them",x:"haha"},{t:"narr",x:"Nothing else comes. Two days pass."}],
+      fb:"Staying in contact genuinely matters and this is not a wasted message. But it puts the entire weight of starting on her, and the reason she has gone quiet is usually that starting feels impossible. Someone has to go first, and it is easier for the person who is not struggling.", src:"reynolds" } ] },
+  { ask:"She has given you the standard answer. What now?", options:[
+    { label:"“ok cool” and leave it.", you:"ok cool", q:"closed",
+      reply:[{t:"narr",x:"The conversation ends there. She does not message again that week."}],
+      fb:"Taking “I'm fine” at face value is the most common way these conversations end. She gave you the socially easy answer because that is what the question invited. Accepting it the first time tells her the offer was not very serious, and most people will not try twice.", src:"cmi" },
+    { label:"“i'm not trying to be annoying. you've just seemed off since the start of term and i'd rather ask than not.”", you:"i'm not trying to be annoying. you've just seemed off since the start of term and i'd rather ask than not", q:"good",
+      reply:[{t:"them",x:"…"},{t:"them",x:"idk"},{t:"them",x:"everything just feels like a lot right now"}],
+      fb:"Three things worked here. You gave the specific observation rather than a vague worry, you took the pressure off by admitting you might be overstepping, and you made it clear this was a deliberate choice rather than small talk. That combination makes it safe to answer honestly, and she did.", src:"qpr" },
+    { label:"“you're obviously not fine, just tell me.”", you:"you're obviously not fine, just tell me", q:"closed",
+      reply:[{t:"them",x:"wow ok"},{t:"them",x:"im literally just tired"}],
+      fb:"The concern underneath this is real, but calling someone a liar puts them in a position where the only way to save face is to defend the lie. People open up when they feel invited, not when they feel caught. Pressure tends to produce a firmer “I'm fine”, not a truer one.", src:"cmi" } ] },
+  { ask:"She has told you something real. What do you say back?", options:[
+    { label:"“same honestly, exams are killing me.”", you:"same honestly, exams are killing me", q:"missed",
+      reply:[{t:"them",x:"yeah"},{t:"them",x:"anyway it's fine"}],
+      fb:"Relating is a good instinct and sometimes it helps a lot. Here it arrived one beat too early. She had just taken a risk, and the conversation moved to you before she had finished. Notice how fast she wrapped it up afterwards. Matching someone's experience works better once they have actually finished describing it.", src:"cmi" },
+    { label:"“that sounds like a lot to be carrying. what's the biggest part of it?”", you:"that sounds like a lot to be carrying. what's the biggest part of it?", q:"good",
+      reply:[{t:"them",x:"honestly i don't even know"},{t:"them",x:"i just don't really want to do anything anymore. like anything"},{t:"them",x:"sorry that's so dramatic"}],
+      fb:"You validated what she said and then asked her to keep going, which is exactly the order that works. You did not try to solve it, and you did not make it smaller than it is. What she said back, losing interest in everything, is a genuine warning sign and worth remembering.", src:"cmi" },
+    { label:"“you should go see the counsellor.”", you:"you should go see the counsellor", q:"missed",
+      reply:[{t:"them",x:"yeah maybe"},{t:"them",x:"it's not that deep"}],
+      fb:"The destination is right. The timing is not. Referring someone is the third step of QPR for a reason: suggested before the person has finished being heard, it reads as “this is too much for me, please take it somewhere else”. Hold the suggestion until she has said what she needs to say.", src:"qpr" } ] } ],
+  endLines:["You stay in the conversation for another twenty minutes. Nothing gets solved. She says it helps to have said it out loud.",
+            "Before you put your phone down you tell her you will check in tomorrow, and the day after that, you do."],
+  takeaways:["“Are you ok?” is a question with an easy exit. Naming the specific change you noticed is much harder to deflect.",
+             "Expect to ask twice. The first “I'm fine” is usually a test of whether you actually want the real answer.",
+             "Losing interest in everything is a warning sign, not just a mood. It belongs in a conversation with an adult."] },
+
+{ id:"latenight", title:"2:14 a.m.", qpr:"Question", mins:"5 min",
+  blurb:"A message arrives in the middle of the night that you cannot un-read.",
+  setup:"Your phone lights up at <strong>2:14 a.m.</strong> It is Arjun, who you have known since Year 6 and who has been quieter than usual since his parents separated. You are half asleep.",
+  open:[{t:"who",x:"Arjun · 2:14 a.m."},{t:"them",x:"sorry"},{t:"them",x:"ignore this"},
+        {t:"them",x:"i've just been thinking it would be easier for everyone if i wasn't around"}],
+  steps:[
+  { ask:"You are awake now. What do you send?", options:[
+    { label:"“don't say that man, you've got so much going for you”", you:"don't say that man, you've got so much going for you", q:"closed",
+      reply:[{t:"them",x:"yeah i know"},{t:"them",x:"sorry, forget it"}],
+      fb:"This is the single most common reply, and it comes from genuine affection. The problem is that it argues with the feeling instead of asking about it. “You've got so much going for you” tells him his own experience is wrong, so the fastest way out is to apologise and stop talking. Which is what he just did.", src:"cmi" },
+    { label:"“are you thinking about killing yourself?”", you:"are you thinking about killing yourself?", q:"good",
+      reply:[{t:"narr",x:"Three dots appear, stop, and start again."},{t:"them",x:"…yeah"},{t:"them",x:"not like right now"},{t:"them",x:"but it's been in my head a lot"}],
+      fb:"This is the hardest message in the whole tool to send, and it is the right one. Asking directly does not put the idea in someone's head. What it does is tell them you are not afraid of the answer, which is often the first time anyone has given them that. This is the Question step of QPR, and it is meant to be this plain.", src:"qpr" },
+    { label:"“you up? can i call you”", you:"you up? can i call you", q:"good",
+      reply:[{t:"them",x:"not rly in the mood to talk"},{t:"them",x:"im ok"}],
+      fb:"Moving to voice is a strong instinct, because tone carries things text cannot. He said no, which is common at 2 a.m. The gap is that you have not asked the actual question yet, and the longer it goes unasked the easier it is for both of you to let the moment pass.", src:"qpr" } ] },
+  { ask:"He has told you something enormous. What do you do with it?", options:[
+    { label:"“i won't tell anyone, i promise.”", you:"i won't tell anyone, i promise", q:"closed",
+      reply:[{t:"them",x:"thank you"},{t:"them",x:"seriously"}],
+      fb:"You can feel why this is tempting. He trusted you and you want to protect that. But you have just promised something you cannot keep without putting him at risk, and you are now the only person holding it, at 2 a.m., with no training. Guidance on this is unambiguous: when a friend talks about not wanting to be alive, an adult needs to know.", src:"cmi" },
+    { label:"“i'm not going to pretend i didn't read that. i'm staying up with you though. i'm here.”", you:"i'm not going to pretend i didn't read that. i'm staying up with you though. i'm here", q:"good",
+      reply:[{t:"them",x:"please don't make it a thing"},{t:"them",x:"i shouldn't have said anything"},{t:"them",x:"but ok"}],
+      fb:"You did two things at once that look like opposites. You refused to make a promise you could not keep, and you stayed. That combination is what keeps someone talking: he knows where he stands with you, and he knows you have not left. You did not negotiate about secrecy, and you did not threaten him with it either.", src:"cmi" },
+    { label:"Say nothing to him. Call his mum now.", you:"[you put the phone down and look up his mum's number]", q:"missed",
+      reply:[{t:"narr",x:"You hesitate with her contact open."}],
+      fb:"Getting an adult involved is correct and you should not talk yourself out of it. Doing it silently is the part to reconsider. If he finds out later that you went around him without a word, the person he reached out to at 2 a.m. becomes someone he cannot predict. Tell him you are going to, then do it anyway if he says no.", src:"cmi" } ] },
+  { ask:"It is nearly 3 a.m. What do you do before you sleep?", options:[
+    { label:"“get some sleep, i'll check on you tomorrow”", you:"get some sleep, i'll check on you tomorrow", q:"missed",
+      reply:[{t:"them",x:"yeah"},{t:"them",x:"night"}],
+      fb:"Checking in tomorrow is good and you should still do it. But the conversation ended without anything changing. He is in exactly the position he was in before he messaged you, except that now he has told someone and nothing happened, which can make it harder to tell anyone again.", src:"qpr" },
+    { label:"“there's a number you can call right now, 14416, it's free and open all night. i'll stay on chat while you do it.”", you:"there's a number you can call right now, 14416. it's free and it's open all night. i'll stay on chat while you do", q:"good",
+      reply:[{t:"them",x:"i don't want to call a stranger"},{t:"them",x:"…ok maybe tomorrow"},{t:"them",x:"will you actually still be awake"}],
+      fb:"This is the Refer step, and notice that it worked even though he did not call. You handed him something concrete, you stayed beside him instead of sending him off alone, and you left the door open. He did not say yes tonight. He said maybe tomorrow, which is a different answer from no.", src:"qpr" },
+    { label:"Keep talking about anything else until he falls asleep, and tell nobody.", you:"[you talk about football until he stops replying]", q:"closed",
+      reply:[{t:"narr",x:"At 3:40 a.m. he stops replying. You do not know if he is asleep."}],
+      fb:"Distraction can genuinely help someone get through a night. But you have ended up carrying this entirely alone, with no adult knowing and no way of telling whether he is asleep or not. That is too much weight for one person, and it is not what friendship is supposed to cost you.", src:"cmi" } ] } ],
+  endLines:["You tell your form tutor before registration the next morning. You tell Arjun first, by message, so he hears it from you.",
+            "He does not speak to you for two days. On the third day he sits next to you at lunch and says his mum has booked him something.",
+            "He never thanks you for it. That is fine."],
+  takeaways:["Ask the question directly, in plain words. Asking does not plant the idea. It tells someone you can handle the answer.",
+             "Never promise to keep this secret. You can refuse the promise and still stay with the person, and that is the combination that works.",
+             "Tell them you are telling an adult, then tell the adult. Going behind someone's back costs you the trust that is keeping them talking."] },
+
+{ id:"lunch", title:"She told you at lunch", qpr:"Persuade", mins:"4 min",
+  blurb:"No warning, no screen to hide behind, and twenty minutes until the bell.",
+  setup:"You are sitting outside with <strong>Priya</strong>. She has been talking about nothing in particular for ten minutes, and then she stops, and says it. There is no phone between you and no time to think.",
+  open:[{t:"who",x:"Priya · in person"},{t:"them",x:"this is going to sound mad"},
+        {t:"them",x:"i've been feeling kind of hopeless for a few months. like properly."},
+        {t:"them",x:"sometimes i think about just not being here anymore"},
+        {t:"narr",x:"She is looking at the table. The bell is in twenty minutes."}],
+  steps:[
+  { ask:"The first three seconds. What do you do?", options:[
+    { label:"“oh my god Priya.” Your face does the rest.", you:"oh my god, Priya", q:"missed",
+      reply:[{t:"them",x:"see, this is why i didn't say anything"},{t:"them",x:"forget it, it's not that bad"}],
+      fb:"Your reaction is the information she is actually reading. Shock is honest, and it is not a moral failure, but it tells her she has handed you something too heavy and the kind thing to do now is take it back. Watch how quickly she started shrinking it. Staying still matters more than finding the right words.", src:"cmi" },
+    { label:"Stay where you are. “Thank you for telling me. I'm really glad you did.”", you:"thank you for telling me. i'm really glad you did.", q:"good",
+      reply:[{t:"them",x:"i didn't know who else to say it to"},{t:"narr",x:"She is still looking at the table, but she has not got up."}],
+      fb:"You did the one thing that had to happen first: you made telling you a good decision rather than a regrettable one. No advice, no panic, no questions yet. Validating that she spoke is what buys you the rest of the conversation, and everything useful you do next depends on it.", src:"cmi" },
+    { label:"“right. we're going to the counsellor. now.”", you:"right, we're going to the counsellor, now", q:"missed",
+      reply:[{t:"them",x:"what? no"},{t:"them",x:"i'm not doing that"},{t:"them",x:"i shouldn't have told you"}],
+      fb:"The destination is exactly right and you will come back to it. The speed is the problem. She spoke to you, not to a process, and being moved straight into one makes it feel like she set something off rather than confided in someone. Refer comes third in QPR because the first two steps are what make it stick.", src:"qpr" } ] },
+  { ask:"She says, quietly, “please don't make this into a big thing.”", options:[
+    { label:"“ok. i won't tell anyone.”", you:"ok. i won't tell anyone.", q:"closed",
+      reply:[{t:"narr",x:"The bell goes. She picks up her bag and you have agreed to carry this by yourself."}],
+      fb:"She asked for the thing that feels safest to her in the moment, and agreeing felt like loyalty. But what you have actually agreed to is being the only person who knows, with no training and no plan. Her safety sits above the promise, and a good friend can say so without making it a confrontation.", src:"cmi" },
+    { label:"“i'm not going to make it a big thing. i'm also not going to leave it. can i come with you to talk to someone who actually knows what they're doing?”", you:"i'm not going to make it a big thing. i'm also not going to leave it. can i come with you to talk to someone who actually knows what they're doing?", q:"good",
+      reply:[{t:"them",x:"like who"},{t:"them",x:"i don't want to sit in an office and cry at a stranger"}],
+      fb:"You answered the fear rather than the sentence. She was not asking you to do nothing, she was asking not to lose control of what happens next, so you gave her a say in it and offered to be there. Offering to go with someone is a specific, well-evidenced move: it removes the part people are most afraid of, which is doing it alone.", src:"cmi" },
+    { label:"“you have to tell someone. i'm serious.”", you:"you have to tell someone. i'm serious.", q:"missed",
+      reply:[{t:"them",x:"ok"},{t:"narr",x:"She says she will. You both know she will not."}],
+      fb:"You are right, and being right is not the same as being effective. An instruction with nothing attached to it leaves her exactly where she was, holding a task she already finds impossible. The useful version of this sentence has a name, a time and an offer to come along stapled to it.", src:"qpr" } ] },
+  { ask:"Five minutes left. Where do you land it?", options:[
+    { label:"Give her the helpline number and leave it with her.", you:"there's a free number, 14416. you can call it any time.", q:"missed",
+      reply:[{t:"them",x:"ok, thanks"},{t:"narr",x:"She puts it in her notes app. You do not know if she will use it."}],
+      fb:"The number is real and giving it to her is not wrong. But handing someone a resource is the lightest possible version of referring them, and it still leaves the hardest part, actually starting, entirely with her. Useful as a backup. Thin as a plan.", src:"qpr" },
+    { label:"“what if we go at the end of the day, together? i'll wait outside the whole time.”", you:"what if we go at the end of the day, together? i'll wait outside the whole time.", q:"good",
+      reply:[{t:"them",x:"you'd actually wait?"},{t:"them",x:"…ok. end of the day."}],
+      fb:"A time, a plan and company. That is what turns “you should get help” into something that happens. You also did not promise to sit in the room, which keeps it honest: you are getting her to the door, not pretending to be the professional on the other side of it. This is Persuade and Refer working together.", src:"qpr" },
+    { label:"“have a think about it over the weekend and tell me monday.”", you:"have a think about it over the weekend, tell me monday", q:"closed",
+      reply:[{t:"them",x:"yeah ok"},{t:"narr",x:"It is Friday. Three days is a long time."}],
+      fb:"Giving someone space sounds respectful, and with most problems it would be. Here it hands back the decision at the exact moment she had stopped resisting, and it leaves a long unsupervised gap. Momentum matters. When someone has just told you this, the right distance is hours, not days.", src:"qpr" } ] } ],
+  endLines:["You wait outside the counsellor's office for thirty-five minutes and miss the bus.",
+            "She comes out, says almost nothing, and you walk to the gate together.",
+            "Two weeks later she tells you she is going again on Thursdays. You were never the thing that helped. You were the thing that got her there."],
+  takeaways:["Your first reaction teaches them whether telling you was safe. Staying still beats finding clever words.",
+             "“Please don't make it a big thing” is a request for control, not a request for silence. Give them a say, not your silence.",
+             "Offering to go with someone is the move that works. A phone number on its own leaves the hardest part with them."] },
+
+{ id:"promise", title:"You already promised", qpr:"Refer", mins:"4 min",
+  blurb:"You gave your word two weeks ago. Today something changed.",
+  setup:"Two weeks ago <strong>Dev</strong> told you he had been thinking about ending his life, and made you promise not to tell anyone. You promised, because he was crying and it was the only thing he wanted. You have not slept properly since. Today he seemed completely fine, which is new, and at the end of the day he handed you his hoodie and said keep it.",
+  open:[{t:"narr",x:"The hoodie is in your bag. He has worn it every day for two years."},
+        {t:"who",x:"Dev · 4:50 p.m."},{t:"them",x:"thanks for listening the other week btw"},
+        {t:"them",x:"honestly i feel so much better now. like it's all sorted"}],
+  steps:[
+  { ask:"Something about this does not sit right. What is your read?", options:[
+    { label:"Good. He sounds better. The promise holds.", you:"[you decide to let it go]", q:"closed",
+      reply:[{t:"narr",x:"You put your phone face down and it does not help."}],
+      fb:"A sudden calm after a long low period, giving away something that matters to him, and tidy language like “it's all sorted” are a recognised pattern, not a recovery. It is the combination that matters here. This is the warning-sign step of QPR, and it is the part people miss because the surface looks like good news.", src:"qpr" },
+    { label:"Too sudden, and he has started giving things away. Act today.", you:"[you read it as a warning sign]", q:"good",
+      reply:[{t:"narr",x:"You stay standing in the corridor with your bag still on."}],
+      fb:"You read it correctly. An abrupt lift in mood after months of struggling, combined with giving away possessions that mean something, is one of the clearest patterns there is. Spotting it is not paranoia. Noticing a change and acting on it is the whole premise of gatekeeper training.", src:"wyman" },
+    { label:"Message him and ask straight out what is going on.", you:"are you ok? this doesn't sound like you", q:"good",
+      reply:[{t:"them",x:"lol im fine"},{t:"them",x:"honestly"},{t:"them",x:"stop worrying"}],
+      fb:"Asking is always defensible and it costs nothing. What you should not do is treat the answer as settled. Reassurance that arrives fast and light, right after someone has given a possession away, is not evidence that the worry was unfounded. Ask, and then act on what you saw rather than on what he said.", src:"qpr" } ] },
+  { ask:"The promise is two weeks old and you are still the only one who knows. Who do you tell?", options:[
+    { label:"Another friend, so you are not holding it alone.", you:"[you tell your closest friend]", q:"missed",
+      reply:[{t:"narr",x:"She is as frightened as you are. Now there are two of you and still no adult."}],
+      fb:"You should not be carrying this by yourself, and reaching out was the right instinct. But another student cannot call his parents, cannot involve the school, and cannot assess risk. You have doubled the worry without adding any of the things that actually change what happens next.", src:"cmi" },
+    { label:"Your school counsellor, today, in person.", you:"[you go to the counsellor's office before you leave]", q:"good",
+      reply:[{t:"narr",x:"She asks you three questions, writes something down, and tells you that you did the right thing coming straight here."}],
+      fb:"This is the Refer step done properly: an adult with training, today, in person rather than by message. Note how little you had to know. You did not have to assess anything or decide how serious it was. Handing it to someone whose job this is was the entire task.", src:"qpr" },
+    { label:"Wait for your scheduled meeting with her next month.", you:"[you decide to raise it at your next check-in]", q:"closed",
+      reply:[{t:"narr",x:"That is twenty-six days away."}],
+      fb:"Putting it in a diary feels like a plan, which is what makes it dangerous. Every reason you noticed something today is a reason not to wait. When the signs are this specific, the correct timescale is the same day, and no scheduled slot is worth more than that.", src:"wyman" } ] },
+  { ask:"What do you say to Dev about the promise you broke?", options:[
+    { label:"Nothing. Let the adults handle it from here.", you:"[you say nothing and hope he does not ask]", q:"missed",
+      reply:[{t:"narr",x:"He finds out on Thursday from his mum."}],
+      fb:"The hard part is done and it mattered. But hearing it from somebody else turns you into one more person who went around him, at a point when he badly needs someone who is straight with him. Telling him yourself is the difference between being broken trust and being honest about why you chose this.", src:"cmi" },
+    { label:"“i told Ms Rao today. i know what i promised. i'd rather you were angry with me.”", you:"i told Ms Rao today. i know what i promised. i'd rather you were angry with me.", q:"good",
+      reply:[{t:"them",x:"are you serious"},{t:"them",x:"i trusted you"},{t:"narr",x:"He does not reply again that evening."}],
+      fb:"He is angry, and you were still right. You told him yourself, you did not pretend the promise had not happened, and you named the reason plainly instead of defending yourself. That reply hurts to read. It is also the correct outcome, and it is not a sign you handled it badly.", src:"cmi" },
+    { label:"Deny it if he asks.", you:"[you decide to say it wasn't you]", q:"closed",
+      reply:[{t:"narr",x:"He will know. People always know."}],
+      fb:"This protects you for about a day and costs him the one person who was paying attention. If he ever considers telling someone again, this is the memory he will check it against. You can survive him being angry. He needs to be able to trust what you say.", src:"cmi" } ] } ],
+  endLines:["Dev does not speak to you for eleven days.",
+            "In the second week of the holidays he messages you a photo of a dog he has seen, with no explanation, and you reply about the dog.",
+            "You still have the hoodie. You have not given it back and he has not asked."],
+  takeaways:["A sudden lift in mood after a long low, plus giving away things that matter, is a warning sign and not good news.",
+             "A promise to keep someone's safety secret was never one you could keep. Asking for it was not fair on you, even though they were not trying to be unfair.",
+             "Tell them you told someone. Being disliked for two weeks is survivable. You are not supposed to carry this on your own."] }
+];
+
+/* =================================================================== state */
+
+const store = {
+  read(k,fb){ try{ const v=localStorage.getItem("wdis_"+k); return v===null?fb:JSON.parse(v); }catch(e){ return fb; } },
+  write(k,v){ try{ localStorage.setItem("wdis_"+k, JSON.stringify(v)); }catch(e){} }
+};
+const state = {
+  before: store.read("before",null),
+  after: store.read("after",null),
+  done: store.read("done",[]),
+  results: store.read("results",{}),
+  scenario:null, stepIndex:0, picks:[], busy:false
+};
+
+const view = document.getElementById("view");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const wait = ms => new Promise(r=>setTimeout(r, reduced()?Math.min(ms,50):ms));
+const ROUTES = ["home","learn","sources","review","summary"];
+
+/* ================================================================== router */
+
+function currentRoute(){
+  const h = (location.hash||"").replace(/^#/,"");
+  return ROUTES.includes(h) ? h : "home";
+}
+function go(route){
+  if(route==="home"){ if(location.hash) location.hash=""; else render(); }
+  else location.hash = route;
+  if(currentRoute()===route) render();
+}
+window.addEventListener("hashchange", ()=>{ state.scenario=null; render(); });
+
+function render(){
+  if(state.scenario){ renderScenario(); }
+  else {
+    const r = currentRoute();
+    if(r==="learn") renderLearn();
+    else if(r==="sources") renderSources();
+    else if(r==="review") renderReview();
+    else if(r==="summary") renderSummary();
+    else renderHome();
+  }
+  document.querySelectorAll("[data-go]").forEach(b=>{
+    b.classList.toggle("on", !state.scenario && b.dataset.go===currentRoute());
+  });
+  window.scrollTo({top:0, behavior:reduced()?"auto":"smooth"});
+}
+
+/* ==================================================================== home */
+
+function renderHome(){
+  const allDone = state.done.length === SCENARIOS.length;
+  view.innerHTML = `
+  <section class="hero">
+    <div class="eyebrow">Practice, not theory</div>
+    <h1 class="h-xl">You notice something.<br>Then what do you <em>actually say?</em></h1>
+    <p class="lede">Four conversations with a friend who is struggling. You choose what to send, you watch how it lands, and you find out why. Every reply is built on QPR, the suicide-prevention model used to train adults, adapted here for two teenagers talking to each other.</p>
+    <div class="actions">
+      <button class="btn" id="startBtn">${state.done.length?"Continue":"Start the first conversation"}</button>
+      <button class="btn ghost" data-go="learn">Learn the model first</button>
+    </div>
+    <div class="notice">
+      <p><strong>This is a practice tool, not a crisis service.</strong> Nothing here replaces a counsellor, a doctor or a trusted adult. If you need someone now, Tele-MANAS is free and open all night on <span class="num">14416</span>.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="h-l">How it works</h2>
+    <div class="steps3">
+      <div class="step3"><div class="n">1</div><h4>A real situation</h4><p>A friend goes quiet. A message arrives at 2 a.m. Someone tells you at lunch and the bell is in twenty minutes.</p></div>
+      <div class="step3"><div class="n">2</div><h4>You choose a reply</h4><p>Three options, none of them stupid. Most of the wrong answers are things caring people actually say.</p></div>
+      <div class="step3"><div class="n">3</div><h4>You see what it did</h4><p>The conversation reacts, then you find out why that reply helped or shut things down, with the source it came from.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 class="h-l">Before you start</h2></div>
+    <p class="note-sm">One question, so you can see whether this changed anything. You will be asked it again at the end.</p>
+    <div class="card-pad" style="margin-top:18px">
+      <p class="gauge-q">Right now, how confident would you feel responding to a friend who seemed to be struggling?</p>
+      <div class="slider-row">
+        <input type="range" id="beforeSlider" min="1" max="10" step="1" value="${state.before ?? 5}" ${state.before!==null?"disabled":""} aria-label="Confidence from 1 to 10">
+        <div class="gauge-val" id="beforeVal">${state.before ?? 5}</div>
+      </div>
+      <div class="scale-ends"><span>No idea what I'd say</span><span>Completely sure</span></div>
+      <div class="actions">
+        ${state.before===null
+          ? `<button class="btn" id="lockBefore">Save my answer</button><span class="muted">Two seconds, and it makes the ending mean something.</span>`
+          : `<span class="muted">Saved: <strong style="color:var(--ink)">${state.before} out of 10</strong>. You will be asked again at the end.</span>`}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 class="h-l">The four conversations</h2><span class="muted">${state.done.length} of ${SCENARIOS.length} done</span></div>
+    <p class="note-sm">Start anywhere. There is no score, and no choice is a trick.</p>
+    <div class="cards">
+      ${SCENARIOS.map(s=>{
+        const done = state.done.includes(s.id);
+        return `<button class="card" data-scenario="${s.id}">
+          <div class="card-top"><h3>${esc(s.title)}</h3>
+            <span class="pill ${done?"done":""}">${done?"Completed":esc(s.qpr)}</span></div>
+          <p>${esc(s.blurb)}</p>
+          <div class="card-meta"><span>${esc(s.mins)}</span><span>3 decisions</span></div>
+        </button>`;
+      }).join("")}
+    </div>
+    ${allDone?`<div class="actions"><button class="btn" data-go="summary">See your summary</button></div>`:``}
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 class="h-l">Four things people believe</h2></div>
+    <p class="note-sm">Every one of these stops someone saying anything. Every one is wrong.</p>
+    <div class="myths">
+      ${MYTHS.map(m=>`<div class="myth">
+        <div class="claim"><span class="tag">Myth</span><span>${esc(m.claim)}</span></div>
+        <div class="truth">${esc(m.truth)}</div>
+        <div class="src">${esc(SOURCES[m.src].tag)}</div>
+      </div>`).join("")}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="h-l">For teachers and counsellors</h2>
+    <p class="note-sm">Every scenario, every response option and every explanation with its source, laid out on one page so it can be checked without clicking through 36 paths.</p>
+    <div class="actions"><button class="btn ghost" data-go="review">Open review mode</button></div>
+  </section>
+
+  ${(state.before!==null || state.done.length)?`
+  <section class="section">
+    <div class="actions">
+      <button class="btn quiet" id="resetAll">Reset for the next tester</button>
+      <span class="muted">Clears confidence scores and completed scenarios on this device.</span>
+    </div>
+  </section>`:``}`;
+
+  const bs = document.getElementById("beforeSlider");
+  if(bs) bs.addEventListener("input", e=>{ document.getElementById("beforeVal").textContent = e.target.value; });
+  const lb = document.getElementById("lockBefore");
+  if(lb) lb.addEventListener("click", ()=>{ state.before = Number(document.getElementById("beforeSlider").value); store.write("before",state.before); render(); });
+
+  const sb = document.getElementById("startBtn");
+  if(sb) sb.addEventListener("click", ()=>{
+    const next = SCENARIOS.find(s=>!state.done.includes(s.id)) || SCENARIOS[0];
+    openScenario(next.id);
+  });
+
+  const ra = document.getElementById("resetAll");
+  if(ra) ra.addEventListener("click", ()=>{
+    state.before=null; state.after=null; state.done=[]; state.results={};
+    store.write("before",null); store.write("after",null); store.write("done",[]); store.write("results",{});
+    render();
+  });
+
+  view.querySelectorAll("[data-scenario]").forEach(b=>b.addEventListener("click",()=>openScenario(b.dataset.scenario)));
+}
+
+/* =================================================================== learn */
+
+function renderLearn(){
+  view.innerHTML = `
+  <section class="hero" style="padding-block:38px 24px">
+    <div class="eyebrow">The model behind this tool</div>
+    <h1 class="h-xl" style="font-size:clamp(1.9rem,6vw,2.7rem)">Question. Persuade. <em>Refer.</em></h1>
+    <p class="lede">QPR is a suicide-prevention model used to train adults: teachers, coaches, staff. A randomised trial across 32 secondary schools found it raised both what people knew and whether they believed they could act (Wyman et al.). It was not written for teenagers, so each step below shows what changes when it is one friend talking to another.</p>
+  </section>
+  <section class="section">
+    <div class="qpr">
+      ${QPR.map(q=>`
+      <div class="qpr-card">
+        <div class="qpr-head">
+          <span class="qpr-letter">${q.letter}</span>
+          <h3>${esc(q.name)}</h3>
+          <span class="sub">${esc(q.sub)}</span>
+        </div>
+        <div class="qpr-body">
+          <p style="font-size:.95rem;line-height:1.6">${esc(q.what)}</p>
+          <div class="compare">
+            <div class="cmp a"><span class="lbl">Trained adult</span>${esc(q.adult)}</div>
+            <div class="cmp b"><span class="lbl">You, as a friend</span>${esc(q.teen)}</div>
+          </div>
+          <div class="sayit"><span class="lbl">What it sounds like</span><q>${esc(q.say)}</q></div>
+          <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.6">${esc(q.key)}</p>
+        </div>
+      </div>`).join("")}
+    </div>
+    <div class="actions"><button class="btn" id="toScenarios">Now try it in a conversation</button></div>
+  </section>`;
+  document.getElementById("toScenarios").addEventListener("click", ()=>{
+    const next = SCENARIOS.find(s=>!state.done.includes(s.id)) || SCENARIOS[0];
+    openScenario(next.id);
+  });
+}
+
+/* ================================================================ scenario */
+
+function openScenario(id){
+  state.scenario = SCENARIOS.find(s=>s.id===id);
+  state.stepIndex = 0; state.picks = [];
+  if(location.hash) { location.hash = ""; }
+  render();
+}
+
+function renderScenario(){
+  const s = state.scenario;
+  view.innerHTML = `
+  <section class="scene-head">
+    <div class="eyebrow">${esc(s.qpr)} &middot; Scenario ${SCENARIOS.indexOf(s)+1} of 4</div>
+    <h2 class="h-l" style="margin-top:10px">${esc(s.title)}</h2>
+    <div class="setup">${s.setup}</div>
+    <div class="progress">${s.steps.map((_,i)=>`<span class="dot${i<=state.stepIndex?" on":""}" id="dot${i}"></span>`).join("")}</div>
+    <div class="actions"><button class="btn quiet" id="leave">&larr; All scenarios</button></div>
+  </section>
+  <div class="chat" id="chat"></div>
+  <div id="stage"></div>`;
+  document.getElementById("leave").addEventListener("click", ()=>{ state.scenario=null; render(); });
+  runOpening();
+}
+
+const chatEl = ()=>document.getElementById("chat");
+const stageEl = ()=>document.getElementById("stage");
+
+function push(line){
+  const c = chatEl(); if(!c) return;
+  const d = document.createElement("div");
+  d.className = line.t==="who" ? "who anim" : line.t==="narr" ? "msg narr anim" : "msg "+line.t+" anim";
+  d.textContent = line.x; c.appendChild(d);
+}
+function typingOn(){
+  const c = chatEl(); if(!c) return null;
+  const d = document.createElement("div"); d.className="typing";
+  d.innerHTML="<i></i><i></i><i></i>"; c.appendChild(d); return d;
+}
+async function playLines(lines, fromFriend){
+  for(const line of lines){
+    if(fromFriend && line.t==="them"){
+      const t = typingOn();
+      await wait(400 + Math.min(line.x.length*15, 850));
+      if(t) t.remove();
+    } else { await wait(250); }
+    push(line);
+  }
+}
+async function runOpening(){
+  state.busy = true; stageEl().innerHTML="";
+  await wait(180);
+  await playLines(state.scenario.open, true);
+  state.busy = false; showChoices();
+}
+function showChoices(){
+  const step = state.scenario.steps[state.stepIndex];
+  const stage = stageEl();
+  stage.innerHTML = `<div class="choices anim">
+    <div class="choice-label">${esc(step.ask)}</div>
+    ${step.options.map((o,i)=>`<button class="choice" data-opt="${i}"><span class="key">${String.fromCharCode(65+i)}</span><span>${esc(o.label)}</span></button>`).join("")}
+  </div>`;
+  stage.querySelectorAll("[data-opt]").forEach(b=>b.addEventListener("click",()=>choose(Number(b.dataset.opt))));
+}
+
+async function choose(i){
+  if(state.busy) return;
+  state.busy = true;
+  const step = state.scenario.steps[state.stepIndex];
+  const opt = step.options[i];
+  state.picks.push({ step:state.stepIndex, q:opt.q });
+
+  stageEl().innerHTML = "";
+  push({t:"you", x:opt.you});
+  await wait(480);
+  await playLines(opt.reply, true);
+  await wait(300);
+
+  const src = SOURCES[opt.src];
+  const last = state.stepIndex === state.scenario.steps.length-1;
+  const others = step.options.map((o,j)=>({o,j})).filter(x=>x.j!==i);
+
+  stageEl().innerHTML = `
+  <div class="feedback ${opt.q} anim">
+    <div class="verdict">${esc(VERDICT[opt.q])}</div>
+    <div class="body">${esc(opt.fb)}</div>
+    <div class="src">Based on ${esc(src.tag)} &mdash; ${esc(src.title)}</div>
+    <details class="alt"><summary>What the other ${others.length===1?"reply":others.length+" replies"} would have done</summary>
+      <div class="altlist">
+        ${others.map(({o})=>`<div class="alt-item ${o.q}">
+          <span class="q">${esc(VERDICT[o.q])}</span>
+          <span class="said">${esc(o.label)}</span>
+          <span class="then">${esc(o.fb.split(". ").slice(0,2).join(". "))}${o.fb.split(". ").length>2?".":""}</span>
+        </div>`).join("")}
+      </div>
+    </details>
+    <div class="actions">
+      <button class="btn" id="next">${last?"See how it ends":"Keep going"}</button>
+      <button class="btn ghost" id="retry">Try a different reply</button>
+    </div>
+  </div>`;
+  document.getElementById("next").addEventListener("click", advance);
+  document.getElementById("retry").addEventListener("click", retry);
+  state.busy = false;
+  document.querySelector(".feedback").scrollIntoView({behavior:reduced()?"auto":"smooth", block:"center"});
+}
+
+function retry(){
+  const c = chatEl();
+  const nodes = Array.from(c.children);
+  let idx = -1;
+  for(let i=nodes.length-1;i>=0;i--){ if(nodes[i].classList.contains("you")){ idx=i; break; } }
+  if(idx>-1) nodes.slice(idx).forEach(n=>n.remove());
+  state.picks.pop();
+  showChoices();
+}
+
+async function advance(){
+  state.stepIndex++;
+  if(state.stepIndex < state.scenario.steps.length){
+    const d = document.getElementById("dot"+state.stepIndex); if(d) d.classList.add("on");
+    stageEl().innerHTML = ""; showChoices();
+    chatEl().lastElementChild?.scrollIntoView({behavior:reduced()?"auto":"smooth", block:"center"});
+  } else { await finishScenario(); }
+}
+
+async function finishScenario(){
+  const s = state.scenario;
+  state.busy = true; stageEl().innerHTML = "";
+  await playLines(s.endLines.map(x=>({t:"narr",x})), false);
+  await wait(260);
+
+  if(!state.done.includes(s.id)){ state.done = state.done.concat(s.id); store.write("done", state.done); }
+  state.results[s.id] = state.picks.map(p=>p.q);
+  store.write("results", state.results);
+
+  const remaining = SCENARIOS.filter(x=>!state.done.includes(x.id));
+  const allDone = remaining.length === 0;
+
+  stageEl().innerHTML = `
+  <div class="ending anim">
+    <h3 class="h-m">The path you took</h3>
+    <div class="pathline">${state.picks.map((p,i)=>`<span class="pathdot ${p.q}">Choice ${i+1}</span>`).join("")}</div>
+    <h3 class="h-m" style="margin-top:22px">What to take from this one</h3>
+    <div class="takeaways">
+      ${s.takeaways.map((t,i)=>`<div class="takeaway"><span class="mark">${i+1}</span><span>${esc(t)}</span></div>`).join("")}
+    </div>
+    <div class="helpstrip">
+      <b>Whatever you say, you are not the plan.</b> A friend's job is to notice, to stay, and to get an adult involved. If any of this is real for someone you know, tell your school counsellor or another adult you trust. Tele-MANAS is free and open 24 hours on <span class="num">14416</span>, and KIRAN on <span class="num">1800-599-0019</span>.
+    </div>
+    <div class="actions">
+      ${allDone?`<button class="btn" data-go="summary">See your summary</button>`
+               :`<button class="btn" id="nextScenario">Next: ${esc(remaining[0].title)}</button>`}
+      <button class="btn ghost" id="replay">Run this again</button>
+      <button class="btn quiet" id="home">All scenarios</button>
+    </div>
+  </div>`;
+
+  const ns = document.getElementById("nextScenario");
+  if(ns) ns.addEventListener("click", ()=>openScenario(remaining[0].id));
+  document.getElementById("replay").addEventListener("click", ()=>openScenario(s.id));
+  document.getElementById("home").addEventListener("click", ()=>{ state.scenario=null; render(); });
+  view.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{ state.scenario=null; go(b.dataset.go); }));
+  state.busy = false;
+  document.querySelector(".ending").scrollIntoView({behavior:reduced()?"auto":"smooth", block:"start"});
+}
+
+/* ================================================================= summary */
+
+function renderSummary(){
+  const total = Object.values(state.results).flat();
+  const strong = total.filter(q=>q==="good").length;
+  const steps = SCENARIOS.filter(s=>state.done.includes(s.id)).map(s=>s.qpr);
+  const covered = [...new Set(steps)];
+  const delta = (state.before!==null && state.after!==null) ? state.after - state.before : null;
+
+  view.innerHTML = `
+  <section class="hero" style="padding-block:38px 22px">
+    <div class="eyebrow">${state.done.length} of 4 conversations done</div>
+    <h1 class="h-xl" style="font-size:clamp(1.9rem,6vw,2.7rem)">What you practised</h1>
+    <p class="lede">None of this is a score. The replies worth re-reading are the ones that went badly, because those are the ones you are most likely to reach for without thinking.</p>
+  </section>
+
+  <section class="section">
+    <div class="statgrid">
+      <div class="stat"><div class="v">${strong}/${total.length||0}</div><div class="k">Times you chose the stronger reply</div></div>
+      <div class="stat"><div class="v">${covered.length}/3</div><div class="k">QPR steps practised: ${covered.join(", ")||"none yet"}</div></div>
+      <div class="stat"><div class="v">${delta!==null?(delta>0?"+"+delta:delta):"—"}</div><div class="k">${delta!==null?"Change in confidence out of 10":"Confidence not yet rated"}</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 class="h-l">How confident are you now?</h2></div>
+    <p class="note-sm">The same question you answered at the start.</p>
+    <div class="card-pad" style="margin-top:18px">
+      <p class="gauge-q">Now, how confident would you feel responding to a friend who seemed to be struggling?</p>
+      <div class="slider-row">
+        <input type="range" id="afterSlider" min="1" max="10" step="1" value="${state.after ?? state.before ?? 5}" ${state.after!==null?"disabled":""} aria-label="Confidence from 1 to 10">
+        <div class="gauge-val" id="afterVal">${state.after ?? state.before ?? 5}</div>
+      </div>
+      <div class="scale-ends"><span>No idea what I'd say</span><span>Completely sure</span></div>
+      ${state.after===null?`<div class="actions"><button class="btn" id="lockAfter">Save my answer</button></div>`:``}
+      ${state.after!==null ? (state.before!==null ? `
+        <div class="result">
+          <div class="big">${state.before} &rarr; ${state.after}${delta>0?`  (+${delta})`:""}</div>
+          <p>${ delta>=2 ? "That is the change this tool was built to produce. Confidence is what gatekeeper training is measured on, because the barrier is almost never whether someone cares."
+              : delta>0 ? "A small move. Worth knowing which scenario did the least for you, because that is the one worth rewriting."
+              : "No increase. That is a real result and worth recording honestly rather than explaining away." }</p>
+        </div>` : `
+        <div class="result"><div class="big">${state.after} out of 10</div>
+        <p>No starting score was saved, so there is nothing to compare against. Reset on the home page and run it again if you are testing this properly.</p></div>`) : ``}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="h-l">Everything worth remembering</h2>
+    <div class="takeaways" style="margin-top:16px">
+      ${SCENARIOS.filter(s=>state.done.includes(s.id)).flatMap(s=>s.takeaways).map((t,i)=>
+        `<div class="takeaway"><span class="mark">${i+1}</span><span>${esc(t)}</span></div>`).join("") || `<p class="note-sm">Finish a conversation and its takeaways appear here.</p>`}
+    </div>
+    <div class="actions"><button class="btn ghost" data-go="home">Back to the scenarios</button></div>
+  </section>`;
+
+  const as = document.getElementById("afterSlider");
+  if(as) as.addEventListener("input", e=>{ document.getElementById("afterVal").textContent = e.target.value; });
+  const la = document.getElementById("lockAfter");
+  if(la) la.addEventListener("click", ()=>{ state.after = Number(document.getElementById("afterSlider").value); store.write("after",state.after); render(); });
+}
+
+/* ================================================================= sources */
+
+function renderSources(){
+  view.innerHTML = `
+  <section class="hero" style="padding-block:38px 22px">
+    <div class="eyebrow">Where the advice comes from</div>
+    <h1 class="h-xl" style="font-size:clamp(1.9rem,6vw,2.7rem)">Sources</h1>
+    <p class="lede">Every explanation in this tool is traceable to one of these. Nothing in it is a guess about what helps, because guessing is the thing that went wrong in the first place.</p>
+  </section>
+  <section class="section">
+    <div class="srclist">
+      ${Object.values(SOURCES).map(s=>`<div class="srcitem">
+        <div class="t">${esc(s.title)}</div>
+        <div class="c">${esc(s.note)}</div>
+        <div class="c" style="margin-top:8px;font-style:italic">${esc(s.cite)}</div>
+        <div class="u">${esc(s.url)}</div></div>`).join("")}
+    </div>
+    <p class="note-sm" style="margin-top:22px">The QPR research was carried out with adults being trained to help young people. This tool adapts it to two teenagers talking to each other, which is a change the original studies did not test.</p>
+  </section>`;
+}
+
+/* ================================================================== review */
+
+function renderReview(){
+  view.innerHTML = `
+  <section class="hero" style="padding-block:38px 20px">
+    <div class="eyebrow">Review mode</div>
+    <h1 class="h-xl" style="font-size:clamp(1.8rem,5.5vw,2.4rem)">Every word in this tool, on one page</h1>
+    <p class="lede">Built so a counsellor or teacher can check the whole thing without clicking through 36 paths. Each response option is listed with how the tool classifies it, the explanation the user is shown, and the source that explanation rests on.</p>
+    <div class="notice"><p><strong>Safety rules this content follows:</strong> no methods are described anywhere; the tool never implies a user can handle a crisis alone; every scenario ending carries a verified helpline and tells the user to involve a trusted adult; and asking directly about suicide is presented as correct, in line with QPR.</p></div>
+  </section>
+  <section class="section">
+    ${SCENARIOS.map(s=>`
+      <div class="rev-sc">
+        <h3>${esc(s.title)} &mdash; QPR step: ${esc(s.qpr)}</h3>
+        <div class="rev-step"><div class="rev-ask">Setup</div>
+          <div class="rev-opt"><span class="said">${s.setup.replace(/<[^>]+>/g,"")}</span></div></div>
+        ${s.steps.map((st,i)=>`
+          <div class="rev-step">
+            <div class="rev-ask">Decision ${i+1}: ${esc(st.ask)}</div>
+            ${st.options.map(o=>`<div class="rev-opt">
+              <span class="said">“${esc(o.label)}”</span>
+              <div class="fb"><b style="color:var(--${o.q})">${esc(VERDICT[o.q])}</b> ${esc(o.fb)}</div>
+              <div class="meta">Source: ${esc(SOURCES[o.src].cite)}</div>
+            </div>`).join("")}
+          </div>`).join("")}
+        <div class="rev-step"><div class="rev-ask">Ending shown to the user</div>
+          <div class="rev-opt"><span class="said">${esc(s.endLines.join(" "))}</span>
+          <div class="fb">${s.takeaways.map(t=>esc(t)).join("<br>")}</div>
+          <div class="meta">Followed by: Tele-MANAS 14416, KIRAN 1800-599-0019, and a message to involve a trusted adult.</div></div></div>
+      </div>`).join("")}
+  </section>`;
+}
+
+/* ================================================================ controls */
+
+document.getElementById("brand").addEventListener("click", ()=>{ state.scenario=null; go("home"); });
+document.getElementById("brand").addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); state.scenario=null; go("home"); } });
+document.querySelectorAll(".topbar [data-go]").forEach(b=>b.addEventListener("click",()=>{ state.scenario=null; go(b.dataset.go); }));
+view.addEventListener("click", e=>{
+  const t = e.target.closest("[data-go]");
+  if(t && view.contains(t)){ state.scenario=null; go(t.dataset.go); }
+});
+
+const modal = document.getElementById("helpModal");
+document.getElementById("helpBtn").addEventListener("click", ()=>{ modal.hidden=false; });
+document.getElementById("closeHelp").addEventListener("click", ()=>{ modal.hidden=true; });
+modal.addEventListener("click", e=>{ if(e.target===modal) modal.hidden=true; });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") modal.hidden=true; });
+modal.querySelectorAll(".copy").forEach(b=>{
+  b.addEventListener("click", async ()=>{
+    try{
+      await navigator.clipboard.writeText(b.dataset.copy);
+      const old=b.textContent; b.textContent="Copied";
+      setTimeout(()=>{ b.textContent=old; },1500);
+    }catch(e){
+      const r=document.createRange(); r.selectNodeContents(b.parentElement.querySelector(".no"));
+      const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      b.textContent="Select and copy";
+    }
+  });
+});
+
+render();
+</script>
+</body>
+</html>
